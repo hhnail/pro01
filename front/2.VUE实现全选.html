@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <div class="list">
+        <div class="footer">
+            <input type="checkbox" v-model="allSelected"/>
+        </div>
+        <p v-for="(value,index) in list">
+            <input type="checkbox" v-model="value.checked"/>
+            <span>{{value.title}}</span>
+        </p>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            list:[
+                {title:'vue',checked:false},
+                {title:'html',checked:false},
+                {title:'css',checked:false},
+                {title:'javascript',checked:false},
+                ]
+        },
+        computed:{
+            // 统计勾选的个数
+            selectedCount(){
+                let num=0;
+                for(const x of this.list){
+                    if(x.checked){
+                        num+=1
+                    }else{
+                        num+=0
+                    }
+                }
+                return num;
+            },
+            // 全选与反选
+            allSelected:{
+                get(){
+                    return this.selectedCount == this.list.length && this.list.length > 0;
+                },
+                set(isCheck){
+                    this.list.forEach(item=>{
+                        item.checked = isCheck;
+                    })
+                }
+            }
+        },
+    })
+</script>
+</body>
+</html>
+
